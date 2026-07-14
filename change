@@ -1,0 +1,35 @@
+name: Build Mine DS Game
+on: [workflow_dispatch, push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: devkitpro/devkitarm:latest
+    steps:
+      - name: Checkout repository code
+        uses: actions/checkout@v4
+
+      - name: Compile the game
+        run: |
+          # Automatically search for the folder containing the source
+          SOURCE_DIR=$(find . -name "source" -exec dirname {} \; | head -n 1)
+          if [ -n "$SOURCE_DIR" ]; then
+            cd "$SOURCE_DIR"
+          fi
+          
+          # If the Makefile is missing, download the original instantly
+          if [ ! -f "Makefile" ]; then
+            echo "Makefile missing! Downloading from official upstream repository..."
+            wget -q https://githubusercontent.com
+          fi
+          
+          make clean
+          make
+
+      - name: Upload Completed NDS File
+        uses: actions/upload-artifact@v4
+        with:
+          name: ZombieFree-MineDS
+          path: |
+            ./*.nds
+            ./**/*.nds
