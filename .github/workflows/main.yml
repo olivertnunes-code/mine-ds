@@ -11,18 +11,17 @@ jobs:
 
       - name: Compile the game
         run: |
-          # Finds the Makefile even if tucked inside a subfolder
-          if [ -f "Makefile" ]; then
-            echo "Makefile found in root."
-          elif [ -d "mine-ds-master" ]; then
-            cd mine-ds-master
-          elif [ -d "mine-ds-main" ]; then
-            cd mine-ds-main
+          # Automatically search for the folder containing the Makefile
+          MAKEFILE_DIR=$(find . -name "Makefile" -exec dirname {} \;)
+          if [ -n "$MAKEFILE_DIR" ]; then
+            echo "Found Makefile in: $MAKEFILE_DIR"
+            cd "$MAKEFILE_DIR"
+            make clean
+            make
           else
-            cd *
+            echo "ERROR: Makefile not found anywhere in the repository!"
+            exit 1
           fi
-          make clean
-          make
 
       - name: Upload Completed NDS File
         uses: actions/upload-artifact@v4
