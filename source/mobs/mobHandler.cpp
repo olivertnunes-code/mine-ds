@@ -119,7 +119,7 @@ static bool canMobSpawnHere(MobType type, World &world, int a, int b)
 	case MOB_MULTIPLAYER:
 		return canMultiplayerMobSpawnHere(world, a, b);
 	case MOB_ZOMBIE:
-		return canZombieMobSpawnHere(world, a, b);
+		return false;
 	case MOB_ANIMAL:
 		return canAnimalMobSpawnHere(world, a, b);
 	case MOB_HEROBRINE:
@@ -146,8 +146,7 @@ static void newMob(MobType type, int x = 0, int y = 0)
 		mobs.push_back(BaseMob::Ptr(new MultiplayerMob(x, y)));
 		break;
 	case MOB_ZOMBIE:
-		mobs.push_back(BaseMob::Ptr(new ZombieMob(x, y)));
-		break;
+		return false;
 	case MOB_ANIMAL:
 		mobs.push_back(BaseMob::Ptr(new AnimalMob(x, y)));
 		break;
