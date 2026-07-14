@@ -11,6 +11,16 @@ jobs:
 
       - name: Compile the game
         run: |
+          # Finds the Makefile even if tucked inside a subfolder
+          if [ -f "Makefile" ]; then
+            echo "Makefile found in root."
+          elif [ -d "mine-ds-master" ]; then
+            cd mine-ds-master
+          elif [ -d "mine-ds-main" ]; then
+            cd mine-ds-main
+          else
+            cd *
+          fi
           make clean
           make
 
@@ -18,4 +28,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ZombieFree-MineDS
-          path: ./*.nds
+          path: |
+            ./*.nds
+            ./**/*.nds
