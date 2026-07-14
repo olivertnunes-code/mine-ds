@@ -5,7 +5,6 @@
 #include "BaseMob.h" //Bad guys are nameMob
 #include "PlayerMob.h" //Good guys are mobName
 #include "MultiplayerMob.h"
-#include "ZombieMob.h"
 #include "HerobrineMob.h"
 #include "AnimalMob.h"
 #include "ItemMob.h"
